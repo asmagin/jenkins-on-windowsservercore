@@ -5,10 +5,6 @@ MAINTAINER Alex Smagin
 # $ProgressPreference will disable download progress info and speed-up download
 SHELL ["powershell", "-NoProfile", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue'; "]
 
-# Jenkins home directory is a volume, so configuration and build history
-# can be persisted and survive image upgrades
-VOLUME c:/jenkins
-
 # Note: Install Jenkins slave
 RUN \
     # jenkins version being bundled in this docker image

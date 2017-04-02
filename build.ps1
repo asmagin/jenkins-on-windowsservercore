@@ -9,7 +9,7 @@ docker rmi $(docker images -f dangling=true -q)
 docker build -t asmagin/jenkins-on-windowsservercore              .\master
 docker build -t asmagin/jenkins-on-windowsservercore:slave        .\slave
 
-# $JENKINS_VERSION = "2.46.1"
+$JENKINS_VERSION = "2.46.1"
 
-# docker build -t asmagin/jenkins-on-windowsservercore:$JENKINS_VERSION             .\master
-# docker build -t asmagin/jenkins-on-windowsservercore:$JENKINS_VERSION-slave       .\slave
+docker build -t asmagin/jenkins-on-windowsservercore:$JENKINS_VERSION             .\master
+docker build -t asmagin/jenkins-on-windowsservercore:$JENKINS_VERSION-slave       .\slave

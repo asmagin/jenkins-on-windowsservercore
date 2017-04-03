@@ -1,0 +1,25 @@
+version: '2.1'
+
+services:
+  jm:
+    image: epam/sitecore-jenkins-master
+    volumes:
+      - c:\temp\backups:c:\backups
+    mem_limit: 1024m
+
+  js0:
+    image: epam/sitecore-jenkins-slave
+    links: 
+      - jm
+    depends_on: 
+      - jm
+    environment:
+      JENKINS_MASTER_HOST: jm
+      JENKINS_AGENT_ID: '00'
+      JENKINS_SECRET: '0000000000000000000000000000000000000000000000000000000000000000'
+    mem_limit: 2048m
+
+networks:
+ default:
+  external:
+   name: "nat"

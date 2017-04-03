@@ -7,8 +7,10 @@ SHELL ["powershell", "-NoProfile", "-Command", "$ErrorActionPreference = 'Stop';
 
 # Note: Install Jenkins slave
 RUN \
+    # TODO: refactor with docker ENV after 1.4 release. 
     # jenkins version being bundled in this docker image
-    if (-not($env:JENKINS_VERSION)) { $env:JENKINS_VERSION = '2.46.1' }; \
+    if (-not($env:JENKINS_VERSION)) { $env:JENKINS_VERSION = '2.46.1'; \
+        [Environment]::SetEnvironmentVariable('JENKINS_VERSION', $env:JENKINS_VERSION, 'Machine') }; \
     New-Item -ItemType Directory -Force -Path 'c:/jenkins'; \
     Invoke-WebRequest "https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/$env:JENKINS_VERSION/jenkins-war-$env:JENKINS_VERSION.war" -OutFile "$env:TEMP/jenkins.zip" -UseBasicParsing; \
     Expand-Archive "$env:TEMP/jenkins.zip" -Destination "$env:TEMP/jenkins"; \
@@ -39,12 +41,16 @@ RUN \
     cd 'c:/Program Files (x86)/MSBuild/Microsoft/VisualStudio/v14.0'; \
     & "c:/nuget/nuget.exe" Install MSBuild.Microsoft.VisualStudio.Web.targets -Version 14.0.0.3 ; \
     mv 'c:/Program Files (x86)/MSBuild/Microsoft/VisualStudio/v14.0/MSBuild.Microsoft.VisualStudio.Web.targets.14.0.0.3/tools/VSToolsPath/*' 'c:/Program Files (x86)/MSBuild/Microsoft/VisualStudio/v14.0/'; \
-    setx PATH '%PATH%;c:/Program Files (x86)/MSBuild/14.0/Bin/msbuild.exe'; \
+    # TODO: refactor with docker ENV after 1.4 release. 
+    $env:PATH = '{0};{1}' -f $env:PATH, 'c:/Program Files (x86)/MSBuild/14.0/Bin/msbuild.exe'; \
+        [Environment]::SetEnvironmentVariable('PATH', $env:PATH, 'Machine'); \
     cd /
 
 # Note: Install Git
 RUN \
-    if (-not($env:GIT_VERSION)) { $env:GIT_VERSION = '2.12.2' }; \
+    # TODO: refactor with docker ENV after 1.4 release. 
+    if (-not($env:GIT_VERSION)) { $env:GIT_VERSION = '2.12.2'; \
+        [Environment]::SetEnvironmentVariable('GIT_VERSION', $env:GIT_VERSION, 'Machine') }; \
     New-Item -ItemType Directory -Force -Path 'c:/git'; \
     Invoke-WebRequest "https://github.com/git-for-windows/git/releases/download/v$env:GIT_VERSION.windows.1/Git-$env:GIT_VERSION-64-bit.exe" -OutFile "$env:TEMP/git.exe" -UseBasicParsing; \
     Start-Process -FilePath "$env:TEMP/git.exe" -ArgumentList '/VERYSILENT', '/NORESTART', '/NOCANCEL', '/SP-', '/DIR="c:/git"' -PassThru | Wait-Process; \
@@ -52,14 +58,18 @@ RUN \
 
 # Note: Install NodeJS
 RUN \
-    if (-not($env:NODEJS_VERSION)) { $env:NODEJS_VERSION = '6.10.1' }; \
+    # TODO: refactor with docker ENV after 1.4 release. 
+    if (-not($env:NODEJS_VERSION)) { $env:NODEJS_VERSION = '6.10.1'; \
+        [Environment]::SetEnvironmentVariable('NODEJS_VERSION', $env:NODEJS_VERSION, 'Machine') }; \
     Invoke-WebRequest "https://nodejs.org/dist/v$env:NODEJS_VERSION/node-v$env:NODEJS_VERSION-x64.msi" -OutFile "$env:TEMP/nodejs.msi" -UseBasicParsing; \
     Start-Process -FilePath "$env:TEMP/nodejs.msi" -ArgumentList '/quiet', '/norestart' -PassThru | Wait-Process; \
     dir "$env:TEMP" | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
 
 # Note: Install Jetbrains Static Code Analysis tools
 RUN \
-    if (-not($env:JETBRAINS_TOOLS_VERSION)) { $env:JETBRAINS_TOOLS_VERSION = '2016.3.20170126.124346' }; \
+    # TODO: refactor with docker ENV after 1.4 release. 
+    if (-not($env:JETBRAINS_TOOLS_VERSION)) { $env:JETBRAINS_TOOLS_VERSION = '2016.3.20170126.124346'; \
+        [Environment]::SetEnvironmentVariable('JETBRAINS_TOOLS_VERSION', $env:JETBRAINS_TOOLS_VERSION, 'Machine') }; \
     New-Item -ItemType Directory -Force -Path 'c:/jetbrains-commandline-tools'; \
     Invoke-WebRequest "https://download.jetbrains.com/resharper/JetBrains.ReSharper.CommandLineTools.$env:JETBRAINS_TOOLS_VERSION.zip" -OutFile "$env:TEMP/jetbrains.zip" -UseBasicParsing; \
     Expand-Archive "$env:TEMP/jetbrains.zip" -Destination "c:/jetbrains-commandline-tools"; \
@@ -67,7 +77,9 @@ RUN \
 
 # Note: Install Nunit
 RUN \
-    if (-not($env:NUNIT_VERSION)) { $env:NUNIT_VERSION = '3.6.1' }; \
+    # TODO: refactor with docker ENV after 1.4 release. 
+    if (-not($env:NUNIT_VERSION)) { $env:NUNIT_VERSION = '3.6.1'; \
+        [Environment]::SetEnvironmentVariable('NUNIT_VERSION', $env:NUNIT_VERSION, 'Machine') }; \
     New-Item -ItemType Directory -Force -Path 'c:/nunit'; \
     Invoke-WebRequest "https://github.com/nunit/nunit-console/releases/download/$env:NUNIT_VERSION/NUnit.Console-$env:NUNIT_VERSION.zip" -OutFile "$env:TEMP/nunit.zip" -UseBasicParsing; \
     Expand-Archive "$env:TEMP/nunit.zip" -Destination "c:/nunit"; \
@@ -75,7 +87,9 @@ RUN \
 
 # Note: Install xUnit
 RUN \
-    if (-not($env:XUNIT_VERSION)) { $env:XUNIT_VERSION = '2.2.0' }; \
+    # TODO: refactor with docker ENV after 1.4 release. 
+    if (-not($env:XUNIT_VERSION)) { $env:XUNIT_VERSION = '2.2.0'; \
+        [Environment]::SetEnvironmentVariable('XUNIT_VERSION', $env:XUNIT_VERSION, 'Machine') }; \
     New-Item -ItemType Directory -Force -Path 'c:/xunit'; \
     cd $env:TEMP; \
     & "c:/nuget/nuget.exe" Install xunit.runner.console -Version $env:XUNIT_VERSION; \

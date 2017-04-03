@@ -28,10 +28,12 @@ RUN \
     Start-Process -FilePath "$env:TEMP/git.exe" -ArgumentList '/VERYSILENT', '/NORESTART', '/NOCANCEL', '/SP-', '/DIR="c:/git"' -PassThru | Wait-Process; \
     dir "$env:TEMP" | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
 
+COPY scripts /scripts
+
 # for main web interface:
 EXPOSE 8080
 
 # will be used by attached slave agents:
 EXPOSE 50000
 
-CMD [ "java", "-jar", "c:/jenkins.war" ]
+CMD [ "powershell", "c:/scripts/startup.ps1" ]

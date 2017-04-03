@@ -97,4 +97,14 @@ RUN \
     dir "$env:TEMP" | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue; \
     cd / ;
 
-CMD [ "java", "-jar", "c:/jenkins/slave.jar" ]
+# Note: Set defaults for slave and copy scripts
+RUN \
+    $env:JENKINS_MASTER_HOST = 'jm'; \
+    $env:JENKINS_AGENT_ID = '00'
+
+COPY scripts /scripts
+
+# Note: Volume for Jenkins backups
+VOLUME c:/backups
+
+CMD [ "powershell", "c:/scripts/startup.ps1" ]

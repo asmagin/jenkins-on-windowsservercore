@@ -5,6 +5,9 @@ services:
     image: epam/sitecore-jenkins-master
     volumes:
       - c:\temp\backups:c:\backups
+    networks:
+      jenkins-network:
+        ipv4_address: 192.168.10.2
     mem_limit: 1024m
 
   js0:
@@ -19,7 +22,11 @@ services:
       JENKINS_SECRET: '0000000000000000000000000000000000000000000000000000000000000000'
     mem_limit: 2048m
 
-networks:
- default:
-  external:
-   name: "nat"
+networks:  
+  jenkins-network:
+    driver: nat
+    ipam:
+      driver: default
+      config:
+      - subnet: 192.168.10.0/24
+        gateway: 192.168.10.1

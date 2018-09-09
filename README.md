@@ -45,7 +45,7 @@ docker build -t="asmagin/jenkins-on-windowsservercore" 'https://github.com/asmag
 docker run -it --rm asmagin/jenkins-on-windowsservercore -v c:/hostfolder:c:/jenkins
 ```
 
-* Run Jenkins Master
+* Run Jenkins Slave
 ``` sh
 docker run -it --rm asmagin/jenkins-on-windowsservercore:slave -c "java -jar c:/jenkins/slave.jar -jnlpUrl <master url> -secret <your secret>"
 ```

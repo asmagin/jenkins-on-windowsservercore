@@ -31,11 +31,11 @@ docker pull asmagin/jenkins-on-windowsservercore
 
 *Alternatively, you can build an image from Dockerfile:*
 ``` sh
-docker build -t='asmagin/jenkins-on-windowsservercore' 'https://github.com/asmagin/jenkins-on-windowsservercore#master:master')
+docker build -t="asmagin/jenkins-on-windowsservercore" "https://github.com/asmagin/jenkins-on-windowsservercore.git#master:master"
 
 # or
 
-docker build -t="asmagin/jenkins-on-windowsservercore" 'https://github.com/asmagin/jenkins-on-windowsservercore#master:slave')
+docker build -t="asmagin/jenkins-on-windowsservercore" "https://github.com/asmagin/jenkins-on-windowsservercore.git#master:slave"
 ```
 
 ## Usage

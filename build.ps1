@@ -1,10 +1,12 @@
 Clear-Host
 
-$ErrorActionPreference = "STOP"
+$ErrorActionPreference = 'Continue'
 
 # Note: run clean-up
 docker rm $(docker ps -a -q)
 docker rmi $(docker images -f dangling=true -q)
+
+$ErrorActionPreference = 'Stop'
 
 docker build -t asmagin/jenkins-on-windowsservercore              .\master
 docker build -t asmagin/jenkins-on-windowsservercore:slave        .\slave

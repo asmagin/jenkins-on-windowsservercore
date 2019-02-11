@@ -9,7 +9,7 @@ SHELL ["powershell", "-NoProfile", "-Command", "$ErrorActionPreference = 'Stop';
 RUN \
     # TODO: refactor with docker ENV after 1.4 release. 
     # jenkins version being bundled in this docker image
-    if (-not($env:JENKINS_VERSION)) { $env:JENKINS_VERSION = '2.46.1'; \
+    if (-not($env:JENKINS_VERSION)) { $env:JENKINS_VERSION = '2.12'; \
         [Environment]::SetEnvironmentVariable('JENKINS_VERSION', $env:JENKINS_VERSION, 'Machine') }; \
     if (-not($env:JENKINS_HOME)) { $env:JENKINS_HOME = 'c:/jenkins'; \
         [Environment]::SetEnvironmentVariable('JENKINS_HOME', $env:JENKINS_HOME, 'Machine') }; \

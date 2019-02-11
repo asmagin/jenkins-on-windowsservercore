@@ -1,4 +1,4 @@
-FROM openjdk:windowsservercore
+FROM openjdk:8-windowsservercore
 
 MAINTAINER Alex Smagin
 

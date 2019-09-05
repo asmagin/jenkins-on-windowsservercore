@@ -32,13 +32,13 @@ if(Test-Path 'c:/scripts/plugins.txt') {
             $plugin = $_
             $url = "$env:JENKINS_UC/download/plugins/$plugin/latest/${plugin}.hpi"
 
-            if (Test-Path "c:/jenkins/plugins") {
-                Write-Host "Skipping plugin:`t[$plugin]"
+            if (-not (Test-Path "c:/jenkins/plugins")) {
+                Write-Host "Creating folder for plugins"
+                New-Item -ItemType Directory -Force -Path 'c:/jenkins/plugins'
             }
-            else {
-                Write-Host "Downloading plugin:`t[$plugin]`tfrom`t$url"
-                Invoke-WebRequest  $url -OutFile "c:/jenkins/plugins/${plugin}.jpi" -UseBasicParsing -ErrorAction SilentlyContinue
-            }
+
+            Write-Host "Downloading plugin:`t[$plugin]`tfrom`t$url"
+            Invoke-WebRequest $url -OutFile "c:/jenkins/plugins/${plugin}.jpi" -UseBasicParsing -ErrorAction $ProgressPreference -Verbose
         }
 
     Remove-Item 'c:/scripts/plugins.txt'
